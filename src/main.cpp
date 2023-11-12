@@ -1,5 +1,7 @@
 #include "include/functions.h"
 #include <iostream>
+#include <string>
+#include <vector>
 
 /*
 Using 'names.txt' (renamed to 'p022_names.txt'), a 46K text file containing over five-thousand first names, begin by
@@ -13,6 +15,10 @@ What is the total of all the name scores in the file?
 */
 
 int main() {
+    std::vector<std::string> names = func::txt_file_to_vector("test_names.txt");
+    for (std::string str : names) {
+        std::cout << str << '\n';
+    }
 
     return 0;
 }
