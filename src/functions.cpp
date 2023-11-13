@@ -4,18 +4,8 @@
 #include <fstream>
 #include <sstream>
 #include <algorithm>
-#include <iostream>
-
-/*
-Using 'names.txt' (renamed to 'p022_names.txt'), a 46K text file containing over five-thousand first names, begin by
-sorting it into alphabetical order. Then working out the alphabetical value for each name, multiply this value by its alphabetical
-position in the list to obtain a name score.
-
-For example, when the list is sorted into alphabetical order, COLIN, which is worth 3 + 15 + 12 + 9 + 14 = 53, is the 938th
-name in the list. So, COLIN would obtain a score of 938 x 53 = 49714.
-
-What is the total of all the name scores in the file?
-*/
+#include <iterator>
+#include <cstdint>
 
 namespace func {
     std::vector<std::string> txt_file_to_vector(std::string file_path) {
@@ -40,6 +30,27 @@ namespace func {
             }
         }
 
+        //Sorting into alphabetical order.
+        std::sort(name_vec.begin(), name_vec.end());
+
         return name_vec;
+    }
+
+    int64_t sum_of_letters_in(std::string name_str) {
+        const std::string str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        int64_t result = 0;
+        for (int i = 0; i < static_cast<int>(name_str.size()); i++) {
+            result += static_cast<int>(str.find(name_str.substr(i, 1)) + 1);
+        }
+        return result;
+    }
+
+    int64_t total_of_all_name_scores_in(std::vector<std::string> names_vec) {
+        int64_t sum_of_all_name_scores = 0;
+        for (int i = 0; i < static_cast<int>(names_vec.size()); i++) {
+            std::string single_name = names_vec[i];
+            sum_of_all_name_scores += func::sum_of_letters_in(single_name) * (i + 1); //'(i + 1)' gives the place value instead of index.
+        }
+        return sum_of_all_name_scores;
     }
 }
